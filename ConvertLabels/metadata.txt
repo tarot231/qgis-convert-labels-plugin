@@ -1,0 +1,15 @@
+[general]
+name=Convert Labels
+qgisMinimumVersion=3.10.3
+description=Converts labels into a layer for annotation
+description[ja]=ラベルを注記用レイヤに変換します
+about=This plugin converts labels of the vector layer into a layer for annotation. The destination can be a GeoPackage point layer or an annotation layer supported from QGIS 3.22. It runs from the context menu of the vector layer in the Layers panel.
+about[ja]=このプラグインは、ベクタレイヤのラベルを注記用レイヤに変換します。変換先にはGeoPackageの点レイヤかQGIS 3.22よりサポートされた注記レイヤを指定できます。レイヤパネルにあるベクタレイヤのコンテキストメニューから実行します。
+version=0.2
+author=Tarot Osuji
+email=tarot@sdf.org
+homepage=https://github.com/tarot231/qgis-convert-labels-plugin
+tracker=https://github.com/tarot231/qgis-convert-labels-plugin/issues
+repository=https://github.com/tarot231/qgis-convert-labels-plugin
+tags=annotation
+experimental=True
