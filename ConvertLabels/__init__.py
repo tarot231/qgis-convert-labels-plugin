@@ -23,6 +23,7 @@
 
 import os
 from qgis.PyQt.QtCore import QObject, QTranslator, QLocale
+from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import qApp, QAction
 from qgis.core import Qgis, QgsApplication, QgsMapLayer, QgsProject
 from .ui import ConvertLabelsDialog
@@ -42,24 +43,27 @@ class ConvertLabels(QObject):
 
     def initGui(self):
         self.plugin_name = self.tr('Convert Labels')
-        self.plugin_act = QAction(self.plugin_name + self.tr('…'))
+        icon = QIcon(os.path.join(os.path.dirname(__file__), 'icon.svg'))
+        self.plugin_act = QAction(icon, self.plugin_name + self.tr('…'))
         self.plugin_act.triggered.connect(self.run)
         self.iface.addCustomActionForLayerType(self.plugin_act, None,
                 QgsMapLayer.VectorLayer, True)
 
         self.dialog = ConvertLabelsDialog(parent=self.iface.mainWindow())
         self.dialog.setWindowTitle(self.plugin_name)
-        self.iface.newProjectCreated.connect(self.slot_projectRead)
-        self.iface.projectRead.connect(self.slot_projectRead)
-        self.slot_projectRead()
+        self.project = QgsProject.instance()
+        self.project.fileNameChanged.connect(self.slot_fileNameChanged)
+        self.iface.newProjectCreated.connect(self.slot_fileNameChanged)
+        self.iface.projectRead.connect(self.slot_fileNameChanged)
+        self.slot_fileNameChanged()
 
     def unload(self):
         self.iface.removeCustomActionForLayerType(self.plugin_act)
 
-    def slot_projectRead(self):
-        prjpath = QgsProject.instance().fileName()
+    def slot_fileNameChanged(self):
+        filename = self.project.fileName()
         self.dialog.leditFile.setText(
-                os.path.splitext(prjpath)[0] + '_Label.gpkg')
+                os.path.splitext(filename)[0] + '_Label.gpkg')
 
     def run(self):
         current_layer = self.iface.activeLayer()

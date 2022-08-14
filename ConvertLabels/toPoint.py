@@ -24,8 +24,17 @@
 import os
 from osgeo import gdal
 from qgis.core import (QgsProject, QgsVectorLayer, QgsVectorFileWriter,
-                       Qgis, QgsDataProvider, QgsWkbTypes,
-                       QgsPalLayerSettings, QgsNullSymbolRenderer)
+                       Qgis, QgsDataProvider, QgsPalLayerSettings,
+                       QgsNullSymbolRenderer)
+
+try:
+    OverPoint = Qgis.LabelPlacement.OverPoint  # QGIS 3.26
+except:
+    OverPoint = QgsPalLayerSettings.Placement.OverPoint
+try:
+    AboveRight = Qgis.LabelQuadrantPosition.AboveRight  # QGIS 3.26
+except:
+    AboveRight = QgsPalLayerSettings.QuadrantPosition.QuadrantAboveRight
 
 
 def convertToPoint(self):
@@ -97,10 +106,14 @@ def convertToPoint(self):
             layername, 'ogr', options)
 
     labeling = src.labeling().clone()
-    if src.geometryType() == QgsWkbTypes.PolygonGeometry:
-        settings = labeling.settings()
-        settings.placement = QgsPalLayerSettings.Placement.OverPoint
-        labeling.setSettings(settings)
+    settings = labeling.settings()
+    settings.displayAll = True
+    if settings.placement != OverPoint:
+        settings.placement = OverPoint
+        settings.quadOffset = AboveRight
+        settings.xOffset = 0
+        settings.yOffset = 0
+    labeling.setSettings(settings)
     dst.setLabeling(labeling)
     dst.setLabelsEnabled(True)
     dst.setRenderer(QgsNullSymbolRenderer())

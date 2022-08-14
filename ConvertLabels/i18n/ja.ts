@@ -4,17 +4,17 @@
 <context>
     <name>ConvertLabels</name>
     <message>
-        <location filename="../__init__.py" line="44"/>
+        <location filename="../__init__.py" line="45"/>
         <source>Convert Labels</source>
         <translation>ラベルを変換</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="45"/>
+        <location filename="../__init__.py" line="47"/>
         <source>…</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="67"/>
+        <location filename="../__init__.py" line="71"/>
         <source>Labels are not enabled</source>
         <translation>ラベルが有効になっていません</translation>
     </message>

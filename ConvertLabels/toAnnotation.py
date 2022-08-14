@@ -51,7 +51,7 @@ def convertToAnnotation(self):
     context = QgsExpressionContext()
 
     if self.dialog.checkSelected.isChecked():
-        feats = src.getSelectedFeatures()    
+        feats = src.getSelectedFeatures()
     else:
         feats = src.getFeatures()
 
